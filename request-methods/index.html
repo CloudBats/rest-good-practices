@@ -1,0 +1,803 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="Teodor Dumitrescu <teodor.dumitrescu@gmail.com>">
+      
+      
+        <link rel="canonical" href="https://cloudbats.github.io/rest-good-practices/request-methods/">
+      
+      <link rel="icon" href="../assets/favicon.ico">
+      <meta name="generator" content="mkdocs-1.3.1, mkdocs-material-8.3.9">
+    
+    
+      
+        <title>Request Methods - REST API Design Good Practices</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.1d29e8d0.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.cbb835fc.min.css">
+        
+      
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="orange">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#request-methods" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="REST API Design Good Practices" class="md-header__button md-logo" aria-label="REST API Design Good Practices" data-md-component="logo">
+      
+  <img src="../assets/logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            REST API Design Good Practices
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Request Methods
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="orange"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+            </label>
+          
+        
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7 0-.24-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91 1.61 0 2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08Z"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/cloudbats/rest-good-practices" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    cloudbats/rest-good-practices
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="REST API Design Good Practices" class="md-nav__button md-logo" aria-label="REST API Design Good Practices" data-md-component="logo">
+      
+  <img src="../assets/logo.svg" alt="logo">
+
+    </a>
+    REST API Design Good Practices
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/cloudbats/rest-good-practices" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    cloudbats/rest-good-practices
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Introduction
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../uri-format/" class="md-nav__link">
+        URI Format
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../resources/" class="md-nav__link">
+        Resources
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Request Methods
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Request Methods
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#definitions" class="md-nav__link">
+    Definitions
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rules" class="md-nav__link">
+    Rules
+  </a>
+  
+    <nav class="md-nav" aria-label="Rules">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dont-use-get-and-post-instead-of-other-request-methods" class="md-nav__link">
+    Don't use GET and POST instead of other request methods
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-get-to-retrieve-a-representation-of-a-resource" class="md-nav__link">
+    Use GET to retrieve a representation of a resource
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-head-to-retrieve-response-headers-without-a-body" class="md-nav__link">
+    Use HEAD to retrieve response headers without a body
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-put-to-both-insert-and-update-a-stored-resource" class="md-nav__link">
+    Use PUT to both insert and update a stored resource
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-put-to-update-mutable-resources" class="md-nav__link">
+    Use PUT to update mutable resources
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-post-to-create-a-new-resource-in-a-collection" class="md-nav__link">
+    Use POST to create a new resource in a collection
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-post-to-execute-controllers" class="md-nav__link">
+    Use POST to execute controllers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-delete-to-remove-a-resource-from-its-parent-collection-or-store" class="md-nav__link">
+    Use DELETE to remove a resource from its parent collection or store
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-options-to-retrieve-available-interactions-for-a-resource" class="md-nav__link">
+    Use OPTIONS to retrieve available interactions for a resource
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../uri-paths/" class="md-nav__link">
+        URI Paths
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../uri-queries/" class="md-nav__link">
+        URI Queries
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#definitions" class="md-nav__link">
+    Definitions
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rules" class="md-nav__link">
+    Rules
+  </a>
+  
+    <nav class="md-nav" aria-label="Rules">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dont-use-get-and-post-instead-of-other-request-methods" class="md-nav__link">
+    Don't use GET and POST instead of other request methods
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-get-to-retrieve-a-representation-of-a-resource" class="md-nav__link">
+    Use GET to retrieve a representation of a resource
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-head-to-retrieve-response-headers-without-a-body" class="md-nav__link">
+    Use HEAD to retrieve response headers without a body
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-put-to-both-insert-and-update-a-stored-resource" class="md-nav__link">
+    Use PUT to both insert and update a stored resource
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-put-to-update-mutable-resources" class="md-nav__link">
+    Use PUT to update mutable resources
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-post-to-create-a-new-resource-in-a-collection" class="md-nav__link">
+    Use POST to create a new resource in a collection
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-post-to-execute-controllers" class="md-nav__link">
+    Use POST to execute controllers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-delete-to-remove-a-resource-from-its-parent-collection-or-store" class="md-nav__link">
+    Use DELETE to remove a resource from its parent collection or store
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-options-to-retrieve-available-interactions-for-a-resource" class="md-nav__link">
+    Use OPTIONS to retrieve available interactions for a resource
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+  <a href="https://github.com/cloudbats/rest-good-practices/edit/master/docs/request-methods.md" title="Edit this page" class="md-content__button md-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
+  </a>
+
+
+
+<h1 id="request-methods">Request Methods<a class="headerlink" href="#request-methods" title="Permanent link">¶</a></h1>
+<h2 id="definitions">Definitions<a class="headerlink" href="#definitions" title="Permanent link">¶</a></h2>
+<p>Each HTTP method is defined within the <a href="../resources/">REST API resource model</a>:</p>
+<dl>
+<dt><code>GET</code></dt>
+<dd>retrieve a representation of a resource’s state</dd>
+<dt><code>HEAD</code></dt>
+<dd>retrieve the metadata associated with the resource’s state</dd>
+<dt><code>PUT</code></dt>
+<dd>add a new resource to a store or update a resource</dd>
+<dt><code>DELETE</code></dt>
+<dd>remove a resource from its parent</dd>
+<dt><code>POST</code></dt>
+<dd>create a new resource within a collection and execute controllers</dd>
+</dl>
+<h2 id="rules">Rules<a class="headerlink" href="#rules" title="Permanent link">¶</a></h2>
+<h3 id="dont-use-get-and-post-instead-of-other-request-methods">Don’t use <code>GET</code> and <code>POST</code> instead of other request methods<a class="headerlink" href="#dont-use-get-and-post-instead-of-other-request-methods" title="Permanent link">¶</a></h3>
+<div class="admonition success">
+<p class="admonition-title">Do…</p>
+<ul>
+<li>use HTTP methods as specified in this section </li>
+</ul>
+</div>
+<div class="admonition failure">
+<p class="admonition-title">Don’t…</p>
+<ul>
+<li>change message intent and undermine the protocol’s transparency</li>
+<li>compromise REST API design by misusing HTTP request methods because clients have limited HTTP vocabulary</li>
+</ul>
+</div>
+<h3 id="use-get-to-retrieve-a-representation-of-a-resource">Use <code>GET</code> to retrieve a representation of a resource<a class="headerlink" href="#use-get-to-retrieve-a-representation-of-a-resource" title="Permanent link">¶</a></h3>
+<div class="admonition success">
+<p class="admonition-title">Do…</p>
+<ul>
+<li><em>(optional)</em> include headers in the request</li>
+<li>ensure idempotency i.e., repeatability without side effects (especially for caching)</li>
+<li>include a body in the response</li>
+</ul>
+</div>
+<div class="admonition failure">
+<p class="admonition-title">Don’t…</p>
+<ul>
+<li>include a body in the request</li>
+</ul>
+</div>
+<h3 id="use-head-to-retrieve-response-headers-without-a-body">Use <code>HEAD</code> to retrieve response headers without a body<a class="headerlink" href="#use-head-to-retrieve-response-headers-without-a-body" title="Permanent link">¶</a></h3>
+<p>Use <code>HEAD</code> to check if a resource exists or to read its metadata</p>
+<div class="admonition success">
+<p class="admonition-title">Do…</p>
+<ul>
+<li><em>(optional)</em> include headers in the request</li>
+<li>ensure idempotency i.e., request repeatability without side effects (especially for caching)</li>
+</ul>
+</div>
+<div class="admonition failure">
+<p class="admonition-title">Don’t…</p>
+<ul>
+<li>include a body in the request</li>
+<li>include a body in the response</li>
+</ul>
+</div>
+<h3 id="use-put-to-both-insert-and-update-a-stored-resource">Use <code>PUT</code> to both insert and update a stored resource<a class="headerlink" href="#use-put-to-both-insert-and-update-a-stored-resource" title="Permanent link">¶</a></h3>
+<p>Use <code>PUT</code> to:
+- add a new resource to a store, with a URI specified by the client.
+- update or replace an already stored resource.</p>
+<div class="admonition success">
+<p class="admonition-title">Do…</p>
+<ul>
+<li>include a body in the request</li>
+</ul>
+</div>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<p>A service-oriented REST API provides a store resource that allows its clients to persist their data as objects:
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a>PUT /users/1234/files/4b099410-0ed9-4719-b3e6-3a847bc3fade
+</code></pre></div></p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The <code>PUT</code> request body may be different from the one received from a subsequent <code>GET</code> request because the resource might be partially immutable.</p>
+<p>See <a href="../headers/#stores-must-support-conditional-put-requests">Stores must support conditional PUT requests</a> for how to use headers to handle overloading <code>PUT</code> to both insert and update resources. </p>
+</div>
+<h3 id="use-put-to-update-mutable-resources">Use <code>PUT</code> to update mutable resources<a class="headerlink" href="#use-put-to-update-mutable-resources" title="Permanent link">¶</a></h3>
+<div class="admonition success">
+<p class="admonition-title">Do…</p>
+<ul>
+<li><em>(optional)</em> include a body in the request with the desired changes</li>
+</ul>
+</div>
+<h3 id="use-post-to-create-a-new-resource-in-a-collection">Use <code>POST</code> to create a new resource in a collection<a class="headerlink" href="#use-post-to-create-a-new-resource-in-a-collection" title="Permanent link">¶</a></h3>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<p>A client uses <code>POST</code> to request a new addition to a server-owned collection:
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a>POST /cities/new-york/museums/moma/exhibits
+</code></pre></div></p>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Do…</p>
+<ul>
+<li><em>(optional)</em> include a body in the request with the suggested initial state of the resource</li>
+</ul>
+</div>
+<h3 id="use-post-to-execute-controllers">Use <code>POST</code> to execute controllers<a class="headerlink" href="#use-post-to-execute-controllers" title="Permanent link">¶</a></h3>
+<p>HTTP defines <code>POST</code> as unsafe and non-idempotent, which means that it may have unwanted side effects if repeated, similar to submitting a web form on an unresponsive site twice for one payment can lead to being charged twice.</p>
+<p>Using <code>POST</code> for controller resources is the natural choice, as gaining extra flexibility is worth losing some transparency and robustness.</p>
+<div class="admonition success">
+<p class="admonition-title">Do…</p>
+<ul>
+<li><em>(optional)</em> include headers in the request</li>
+<li><em>(optional)</em> include a body in the request</li>
+</ul>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Don’t…</p>
+<p>Use <code>POST</code> to get, store, or delete resources, as specific HTTP methods for those actions already exist.</p>
+</div>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<p>A controller executed using <code>POST</code> to restart a router in the network:
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a>POST /routers/1234/restart
+</code></pre></div></p>
+</div>
+<h3 id="use-delete-to-remove-a-resource-from-its-parent-collection-or-store">Use DELETE to remove a resource from its parent collection or store<a class="headerlink" href="#use-delete-to-remove-a-resource-from-its-parent-collection-or-store" title="Permanent link">¶</a></h3>
+<p>Clients must be unable to find a resource after a <code>DELETE</code> request has been processed for it.
+Subsequent <code>GET</code> or <code>HEAD</code> requests on the resource must result in a <code>404</code> (<code>Not Found</code>) response.</p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<p>A user removes a document from a store:
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a>DELETE /users/1234/recipes/lasagna
+</code></pre></div></p>
+</div>
+<div class="admonition failure">
+<p class="admonition-title">Don’t…</p>
+<ul>
+<li>overload the role of <code>DELETE</code> by mapping it to a lesser action that leaves the resource, and its URI, available to clients</li>
+</ul>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Do…</p>
+<ul>
+<li>implement “soft” delete or other state-changing interaction via a controller resource and ask clients to use <code>POST</code> instead of <code>DELETE</code> </li>
+</ul>
+</div>
+<h3 id="use-options-to-retrieve-available-interactions-for-a-resource">Use OPTIONS to retrieve available interactions for a resource<a class="headerlink" href="#use-options-to-retrieve-available-interactions-for-a-resource" title="Permanent link">¶</a></h3>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<p>A user obtains resource metadata including the <code>Allow</code> header value via the OPTIONS request method:
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a>Allow: GET, PUT, DELETE
+</code></pre></div></p>
+</div>
+
+              
+            </article>
+            
+          </div>
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            Back to top
+          </a>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="../resources/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Resources" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Resources
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../uri-paths/" class="md-footer__link md-footer__link--next" aria-label="Next: URI Paths" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              URI Paths
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tracking", "navigation.expand", "navigation.indexes", "navigation.top", "search.suggest", "search.highlight", "search.share"], "search": "../assets/javascripts/workers/search.b97dbffb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.6c7ad80a.min.js"></script>
+      
+        <script src="https://unpkg.com/tablesort@5.3.0/dist/tablesort.min.js"></script>
+      
+        <script src="../javascripts/tablesort.js"></script>
+      
+        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+      
+    
+  </body>
+</html>
