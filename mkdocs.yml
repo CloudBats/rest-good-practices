@@ -1,10 +1,10 @@
 INHERIT: mkdocs_base.yml
 
 site_name: 'REST API Design Good Practices'
-site_url: https://TheodoreAD.github.io/rest-good-practices
+site_url: https://cloudbats.github.io/rest-good-practices
 site_author: Teodor Dumitrescu <teodor.dumitrescu@gmail.com>
-repo_url: https://github.com/TheodoreAD/rest-good-practices
-repo_name: TheodoreAD/rest-good-practices
+repo_url: https://github.com/cloudbats/rest-good-practices
+repo_name: cloudbats/rest-good-practices
 # TODO: make the edit icon smaller, the rest of the content is now smaller
 edit_uri: edit/master/docs
 docs_dir: docs
