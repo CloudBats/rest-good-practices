@@ -1,0 +1,33 @@
+INHERIT: mkdocs_base.yml
+
+site_name: 'REST API Design Good Practices'
+site_url: https://TheodoreAD.github.io/rest-good-practices
+site_author: Teodor Dumitrescu <teodor.dumitrescu@gmail.com>
+repo_url: https://github.com/TheodoreAD/rest-good-practices
+repo_name: TheodoreAD/rest-good-practices
+# TODO: make the edit icon smaller, the rest of the content is now smaller
+edit_uri: edit/master/docs
+docs_dir: docs
+site_dir: html
+# gh-deploy command settings
+remote_branch: gh-pages
+remote_name: origin
+
+# If nothing is specified, navigation will be implicitly created using
+# capitalized directory names and the H1 of each file, sorted alphanumerically
+# used to be done using 'pages', now deprecated, new syntax is 'nav'
+#nav:
+# If using the regular nav section, please create a separate file
+nav:
+  - index.md
+  - uri-format.md
+  - resources.md
+  - request-methods.md
+  - uri-paths.md
+  - uri-queries.md
+#  - response-status-codes.md
+#  - headers.md
+#  - message-body.md
+
+# TODO: replace Nav section by awesome pages plugin .pages files in each dir
+# https://github.com/lukasgeiter/mkdocs-awesome-pages-plugin
